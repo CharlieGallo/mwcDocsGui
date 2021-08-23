@@ -46,6 +46,7 @@ public class mwcDocsFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         fileSelection = new javax.swing.JComboBox<>();
         openBtn = new javax.swing.JButton();
+        wordSearch = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -73,11 +74,6 @@ public class mwcDocsFrame extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         fileSelection.setToolTipText("");
-        fileSelection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileSelectionActionPerformed(evt);
-            }
-        });
 
         openBtn.setText("Open file");
         openBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +81,9 @@ public class mwcDocsFrame extends javax.swing.JFrame {
                 openBtnActionPerformed(evt);
             }
         });
+
+        wordSearch.setText("Only one word");
+        wordSearch.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,7 +104,9 @@ public class mwcDocsFrame extends javax.swing.JFrame {
                                 .addGap(31, 31, 31)
                                 .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(44, 44, 44)
-                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(wordSearch))
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -119,7 +120,8 @@ public class mwcDocsFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(wordSearch))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
@@ -164,22 +166,20 @@ public class mwcDocsFrame extends javax.swing.JFrame {
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         this.currentDocs.matchedFiles.clear();
         String fileName = searchText.getText();
-        this.currentDocs.matchFilenames(this.root_dir, fileName); 
+        this.currentDocs.searchForFiles(this.root_dir, fileName, wordSearch.isSelected()); 
+        //this.currentDocs.matchFilenames(this.root_dir, fileName); 
         resultText.setText(""); 
         fileSelection.removeAllItems();
         displayMatchedFiles();
         //System.out.println(fileName); 
         searchText.setText(""); 
+        
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         int index = fileSelection.getSelectedIndex(); 
         this.currentDocs.openFile(index +1); 
     }//GEN-LAST:event_openBtnActionPerformed
-
-    private void fileSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSelectionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fileSelectionActionPerformed
 
     private void displayMatchedFiles(){
         
@@ -259,5 +259,6 @@ public class mwcDocsFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea resultText;
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchText;
+    private javax.swing.JRadioButton wordSearch;
     // End of variables declaration//GEN-END:variables
 }

@@ -51,10 +51,31 @@ public class Docs {
         }
         this.fullDir.add(aList);
     }
+    
+    /** 
+     *   Root method that calls either of its children based on whether the 'wordSearch' JCheckBox has been selected.
+     *   @param dir for file directory to search
+     *   @param searchInput for the word/s the user would like to search
+     *   @param wordMatchOnly states whether the 'wordSearch' checkbox has been selected
+     
+     */
+    public void searchForFiles(File dir, String searchInput, Boolean wordMatchOnly){
+        
+        if(wordMatchOnly){
+            matchWordInFileName(dir, searchInput); 
+        } else {
+            matchFilenames(dir, searchInput);
+        }
+        
+    }
+    
+    
+    // TODO - Make new method to remove duplicate from the two search methods.
+    
     /**
      *
      */
-    public void matchFilenames(File dir, String fileToFind) {
+    public void matchFilenames(File dir, String fileToFind) { // TODO - add parameter for one word search. Add parent method to point to this amd matchWordInFileName
 //        String[] filenames = dir.list();
 //
 //        for(String file: filenames){
@@ -77,6 +98,23 @@ public class Docs {
                 }
             } else {
                 matchFilenames(file, fileToFind);
+            }
+        }
+    }
+    
+    public void matchWordInFileName(File dir, String wordToSearch){
+        // This is case sensitive. Convert file name AND input to lowercase.
+        File[] filenames = dir.listFiles(); // Get list of directory
+        for (File file : filenames) { // Search each file in the directory
+            String fileWithoutExtension = file.getName().replaceFirst("[.][^.]+$", ""); // Get file name without extension
+            String filePath = file.getPath(); // Get file path 
+
+            if (!file.isDirectory()) { 
+                if (fileWithoutExtension.toLowerCase().contains(wordToSearch.toLowerCase())) { // Search for user word in the file name
+                    this.matchedFiles.add(new File(filePath));
+                }
+            } else {
+                matchWordInFileName(file, wordToSearch); // Call method recurssively to search next folder
             }
         }
     }
